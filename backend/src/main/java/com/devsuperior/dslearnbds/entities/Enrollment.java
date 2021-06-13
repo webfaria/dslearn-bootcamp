@@ -21,23 +21,24 @@ public class Enrollment {
 
 	@EmbeddedId
 	private EnrollmentPK id = new EnrollmentPK();
-	
+
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant enrollMoment;
 
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant refundMoment;
+	
 	private boolean available;
 	private boolean onlyUpdate;
 
+	@ManyToMany(mappedBy = "enrollmentsDone")
+	private Set<Lesson> lessonsDone = new HashSet<>();
+
 	/*
-	 * @ManyToMany(mappedBy = "enrollmentsDone") private Set<Lesson> lessonsDone =
-	 * new HashSet<>();
-	 * 
 	 * @OneToMany(mappedBy = "enrollment") private List<Deliver> deliveries = new
 	 * ArrayList<>();
 	 */
-	
+
 	public Enrollment() {
 	}
 
@@ -55,7 +56,7 @@ public class Enrollment {
 	public User getStudent() {
 		return id.getUser();
 	}
-	
+
 	public void setStudent(User user) {
 		id.setUser(user);
 	}
@@ -63,11 +64,11 @@ public class Enrollment {
 	public Offer getOffer() {
 		return id.getOffer();
 	}
-	
+
 	public void setOffer(Offer offer) {
 		id.setOffer(offer);
 	}
-	
+
 	public Instant getEnrollMoment() {
 		return enrollMoment;
 	}
